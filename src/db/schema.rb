@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_13_021328) do
+ActiveRecord::Schema.define(version: 2019_07_13_061446) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 2019_07_13_021328) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "status"
+    t.integer "workflow"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_requests_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "mail"
@@ -37,4 +46,5 @@ ActiveRecord::Schema.define(version: 2019_07_13_021328) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "requests", "users"
 end
