@@ -19,11 +19,7 @@ CSV.foreach('db/users.csv', headers: true) do |csv|
     ka: csv['所属課'],
     job_class: csv['職位']
   }
-  user = User.find(raw[:id])
-  if user.nil? then
-    User.create(raw)
-  else
-   user.update_attributes!(raw)
-  end
+  user = User.find_or_initialize_by(id: raw[:id])
+  user.update_attributes!(raw)
 end
 
