@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  mail: MyString
+  type: 
+  jigyoubu: MyString
+  bumon: MyString
+  ka: MyString
+  job_class: MyString
+
+two:
+  name: MyString
+  mail: MyString
+  type: 
+  jigyoubu: MyString
+  bumon: MyString
+  ka: MyString
+  job_class: MyString

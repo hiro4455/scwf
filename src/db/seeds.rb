@@ -5,3 +5,25 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+require 'csv'
+
+CSV.foreach('db/users.csv', headers: true) do |csv|
+  raw = {
+    id: csv['社員番号'],
+    name: csv['名前1'], 
+    mail: csv['mailアドレス'],
+    kubun: csv['区分'],
+    jigyoubu: csv['所属事業部'],
+    bumon: csv['所属部門'],
+    ka: csv['所属課'],
+    job_class: csv['職位']
+  }
+  user = User.find(raw[:id])
+  if user.nil? then
+    User.create(raw)
+  else
+   user.update_attributes!(raw)
+  end
+end
+
