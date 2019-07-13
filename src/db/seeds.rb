@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 require 'csv'
+require 'yaml'
 
 CSV.foreach('db/users.csv', headers: true) do |csv|
   raw = {
@@ -23,3 +24,25 @@ CSV.foreach('db/users.csv', headers: true) do |csv|
   user.update_attributes!(raw)
 end
 
+File.open('db/forms.yaml') do |file|
+  src = YAML.load(file.read) or raise
+# pp src
+  FormMaster.transaction do
+    FormMaster.delete_all
+    src.each do |raw|
+      form_id = raw['id']
+      display_order = 0
+      raw['fields'].each do |raw_field|
+        display_order += 100
+        FormMaster.create(
+          form_id: form_id,
+          display_order: raw_field['display_order'] || display_order,
+          column_type: raw_field['type'],
+          required: raw_field['required'] || false,
+          name: raw_field['name'],
+          desc: raw_field['desc'],
+          value: raw_field['value'])
+      end
+    end
+  end
+end

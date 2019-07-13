@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_13_001936) do
+ActiveRecord::Schema.define(version: 2019_07_13_021328) do
+
+  create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "form_id"
+    t.string "column_type"
+    t.boolean "required"
+    t.integer "display_order"
+    t.string "metadata"
+    t.string "name"
+    t.string "desc"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"

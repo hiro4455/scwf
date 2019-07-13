@@ -1,0 +1,2 @@
+class FormMaster < ApplicationRecord
+end
