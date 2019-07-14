@@ -1,0 +1,16 @@
+<table>
+<tr>
+  <th>題名</th>
+  <th>状態</th>
+  <th>更新日</th>
+  <th>作成日</th>
+</tr>
+<% @requests.each do |request| %>
+<tr>
+  <td><%= request.name  %></td>
+  <th><%= request.status %></td>
+  <td><%= l(request.updated_at)  %></td>
+  <td><%= l(request.created_at)  %></td>
+</tr>
+</table>
+<% end %>

@@ -1,0 +1,10 @@
+<%= @form_title.value %>
+<%= form_for :request, url: requests_path do |f| %>
+<% @forms.sort{|x| x.display_order}.reverse.each do |form| %>
+  <div class="request_form_element">
+  <%= f.label form.name, form.name unless form.column_type == 'hidden' %>
+  <%= to_html(form, f) unless form.name.nil?%>
+  </div>
+<% end %>
+<%= f.submit 'create'%>
+<% end %>
