@@ -9,7 +9,7 @@
 require 'csv'
 require 'yaml'
 
-CSV.foreach('db/users.csv', headers: true) do |csv|
+CSV.foreach('db/data/users.csv', headers: true) do |csv|
   raw = {
     id: csv['社員番号'],
     name: csv['名前1'], 
@@ -24,7 +24,7 @@ CSV.foreach('db/users.csv', headers: true) do |csv|
   user.update_attributes!(raw)
 end
 
-File.open('db/forms.yaml') do |file|
+File.open('db/data/forms.yml') do |file|
   src = YAML.load(file.read) or raise
 # pp src
   FormMaster.transaction do
