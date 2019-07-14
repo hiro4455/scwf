@@ -1,0 +1,11 @@
+ja:
+  date:
+    formats:
+      default: ! '%Y/%m/%d %H:%M:%S'
+      long: ! '%Y年%m月%d日(%a) %H:%M:%S'
+      short: ! '%m/%d'
+  time:
+    formats:
+      default: ! '%Y/%m/%d %H:%M:%S'
+      long: ! '%Y年%m月%d日(%a) %H:%M:%S'
+      short: ! '%m/%d'
