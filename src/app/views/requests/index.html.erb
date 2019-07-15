@@ -1,0 +1,13 @@
+<h2><%= @user.name %></h2>
+
+<h3>申請を承認する</h3>
+<%= render 'list', requests: @waiting_requests unless @waiting_requests.blank? %>
+
+<h3>申請を出す</h3>
+<ul>
+<li><%= link_to '申請を作成する', new_request_path %> </li>
+</ul>
+
+<h3>申請を見る</h3>
+<%= render 'list', requests: @my_requests unless @my_requests.blank? %>
+

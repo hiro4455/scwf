@@ -1,0 +1,21 @@
+// Place all the styles related to the Requests controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+h3 {
+  font-style: bold;
+  font-size: 18px;
+  color: #eee;
+  background: #a33;
+  padding-top: 10px;
+  padding-bottom: 1px;
+}
+
+table {
+  width: 100%
+}
+
+.request_form_element label {
+  width: 400px;
+  background: lightgray;
+}

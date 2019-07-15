@@ -1,0 +1,20 @@
+
+<h3>申請内容</h3>
+<table>
+<% @forms.each do |form| %>
+  <tr>
+  <th><%= form.name %></th>
+  <td><%= sanitize(form.value.gsub("\n","<br>")) unless form.value.nil? %></td>
+  </tr>
+<% end %>
+</table>
+
+<h3>申請経路</h3>
+
+<% @workflows.order(:flow_order).each do |workflow| %>
+<%= workflow.user.name %>
+<% end %>
+
+<%= form_for :request, url: approve_request_path do |f| %>
+<%= f.submit 'approve'%>
+<% end %>
