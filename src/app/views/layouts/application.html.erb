@@ -10,6 +10,13 @@
   </head>
 
   <body>
+    <header>
+      <div class="header">
+      <div class="app_title">Application center</div>
+      <div class="logedin"><%= @current_user.name unless @current_user.blank? %></div>
+      <div class="logout"><%= link_to '[logout]', login_path, method: :delete if signed_in? %></div>
+      </div>
+    </header>
     <%= yield %>
   </body>
 </html>

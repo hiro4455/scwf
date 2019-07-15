@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_065412) do
+ActiveRecord::Schema.define(version: 2019_07_15_080936) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_065412) do
     t.string "job_class"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest", null: false
+    t.string "remember_token"
   end
 
   create_table "workflows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

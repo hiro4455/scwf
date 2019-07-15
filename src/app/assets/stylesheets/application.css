@@ -13,3 +13,24 @@
  *= require_tree .
  *= require_self
  */
+
+.header {
+  font-style: bold;
+  font-size: 12px;
+  color: #eee;
+  background: #a33;
+  padding-top: 10px;
+  padding-bottom: 1px;
+}
+
+.app_title {
+  font-size: 20px;
+}
+
+.logedin {
+  text-align: right;
+}
+
+.logout {
+  text-align: right;
+}
