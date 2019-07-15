@@ -7,7 +7,7 @@ class RequestsController < ApplicationController
     @form_title = FormMaster.where(form_id: form_id).where(name: 'title').first
   end
 
-  def show
+  def index
     @user = User.find(542)
     @requests = @user.requests
   end
