@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_005935) do
+ActiveRecord::Schema.define(version: 2019_07_15_065412) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_005935) do
     t.datetime "updated_at", null: false
     t.bigint "workflow_id"
     t.string "name"
+    t.integer "current_step"
     t.index ["user_id"], name: "index_requests_on_user_id"
     t.index ["workflow_id"], name: "index_requests_on_workflow_id"
   end
@@ -67,7 +68,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_005935) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "required"
-    t.integer "flow_order"
+    t.integer "flow_step"
     t.index ["request_id"], name: "index_workflows_on_request_id"
     t.index ["user_id"], name: "index_workflows_on_user_id"
   end

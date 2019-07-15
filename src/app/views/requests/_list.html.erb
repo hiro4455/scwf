@@ -5,12 +5,12 @@
   <th>更新日</th>
   <th>作成日</th>
 </tr>
-<% @requests.each do |request| %>
+<% requests.reverse.each do |request| %>
 <tr>
-  <td><%= request.name  %></td>
+  <td><%= link_to request.name, review_request_path(request) %></td>
   <th><%= request.status %></td>
   <td><%= l(request.updated_at)  %></td>
   <td><%= l(request.created_at)  %></td>
 </tr>
-</table>
 <% end %>
+</table>
