@@ -3,6 +3,7 @@ class RequestsController < ApplicationController
   def new
     form_id = 2019071301
     @user = User.find(542)
+    @users = User.all
     @forms = FormMaster.where(form_id: form_id)
     @form_title = FormMaster.where(form_id: form_id).where(name: 'title').first
   end
@@ -25,6 +26,12 @@ class RequestsController < ApplicationController
         required: form['required'],
         value: params[:request][form['name']])
     end
+    request.workflows.create(
+      user: User.find(params[:request]['author1']),
+      required: params[:request]['required'],
+      approved: nil,
+      flow_order: 1)
+
     #request.status = ''
     #request.name = params[:request]['title']
   end

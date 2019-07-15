@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_14_100841) do
+ActiveRecord::Schema.define(version: 2019_07_15_005935) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 2019_07_14_100841) do
     t.boolean "approved"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "required"
+    t.integer "flow_order"
     t.index ["request_id"], name: "index_workflows_on_request_id"
     t.index ["user_id"], name: "index_workflows_on_user_id"
   end
