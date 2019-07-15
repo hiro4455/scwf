@@ -12,4 +12,21 @@ class RequestsController < ApplicationController
     @requests = @user.requests
   end
 
+  def create
+    user = User.find(542)
+    forms = FormMaster.where(form_id: params[:request][:form_id])
+    request = user.requests.create
+    forms.each do |form|
+      request.forms.create(
+        request: request,
+        name: form['name'],
+        column_type: form['column_type'],
+        desc: form['desc'],
+        required: form['required'],
+        value: params[:request][form['name']])
+    end
+    #request.status = ''
+    #request.name = params[:request]['title']
+  end
+
 end

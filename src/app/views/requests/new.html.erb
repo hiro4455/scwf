@@ -6,5 +6,6 @@
   <%= to_html(form, f) unless form.name.nil?%>
   </div>
 <% end %>
+<%= f.hidden_field :form_id, value: @forms[0].form_id %>
 <%= f.submit 'create'%>
 <% end %>
