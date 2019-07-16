@@ -37,6 +37,7 @@ class RequestsController < ApplicationController
       required: params[:request]['required'],
       approved: nil,
       flow_step: flow_number)
+    redirect_to requests_path
   end
 
   def review
