@@ -11,7 +11,7 @@
 
 <h3>申請経路</h3>
 
-<% @workflows.order(:flow_order).each do |workflow| %>
+<% @workflows.order(:flow_step).each do |workflow| %>
 <%= workflow.user.name %>
 <% end %>
 
