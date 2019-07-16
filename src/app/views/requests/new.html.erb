@@ -1,21 +1,33 @@
 <%= @form_title.value %>
 <%= form_for :request, url: requests_path do |f| %>
-  <h2>申請内容の入力</h2>
+  <h3>申請内容の入力</h3>
+  <div class="request_form_element">
+  <table>
   <% @forms.sort{|x| x.display_order}.reverse.each do |form| %>
-    <div class="request_form_element">
+    <tr>
+    <th>
     <%= f.label form.name, form.name unless form.column_type == 'hidden' %>
+    </th>
+    <td>
     <%= to_html(form, f) unless form.name.nil?%>
-    </div>
+    <td>
   <% end %>
   <%= f.hidden_field :form_id, value: @forms[0].form_id %>
+  </table>
+  </div>
 
-  <h2>申請経路</h2>
+  <h3>申請経路</h3>
   <div class="request_form_element">
-  1: 
+  <table>
+  <tr>
+  <th>1:</th> 
+  <td>
   <%= f.label :auther1, '申請先1' %>
   <%= f.select :author1, @users.map{|x| ["#{x.name}(#{x.id})", x.id]} %>
   <%= f.label :required, '必須' %>
   <%= f.check_box :required, checked: true %> 
+  </td>
+  </table>
   </div>
 
   <%= f.submit 'create'%>
