@@ -1,2 +1,3 @@
 src/db/data/*
 *.swp
+.DS_Store
