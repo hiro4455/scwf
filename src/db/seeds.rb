@@ -18,7 +18,8 @@ CSV.foreach('db/data/users.csv', headers: true) do |csv|
     jigyoubu: csv['所属事業部'],
     bumon: csv['所属部門'],
     ka: csv['所属課'],
-    job_class: csv['職位']
+    job_class: csv['職位'],
+    password: csv['password']
   }
   user = User.find_or_initialize_by(id: raw[:id])
   user.update_attributes!(raw)
