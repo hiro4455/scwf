@@ -1,5 +1,6 @@
 
 <h3>申請内容</h3>
+<div class="request_form_element">
 <table>
 <% @forms.each do |form| %>
   <tr>
@@ -8,9 +9,10 @@
   </tr>
 <% end %>
 </table>
+</div>
 
 <h3>申請経路</h3>
-
+ 
 <% @workflows.order(:flow_step).each do |workflow| %>
 <%= workflow.user.name %>
 <% end %>
