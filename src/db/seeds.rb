@@ -25,6 +25,26 @@ CSV.foreach('db/data/users.csv', headers: true) do |csv|
   user.update_attributes!(raw)
 end
 
+File.open('db/data/workflow.yml') do |file|
+  src = YAML.load(file.read) or raise
+  ActiveRecord::Base.transaction do
+    WorkflowStepMaster.delete_all
+    WorkflowMaster.delete_all
+    src.each do |raw|
+      workflow_master = WorkflowMaster.create(id: raw['id'])
+      name = raw['name']
+      raw['flow'].each do |raw_field|
+        WorkflowStepMaster.create(
+          workflow_master: workflow_master,
+          flow_step: raw_field['flow_step'],
+          name: raw_field['name'],
+          approve_type: raw_field['approve_type'],
+          editable: raw_field['editable'])
+      end
+    end
+  end
+end
+
 File.open('db/data/forms.yml') do |file|
   src = YAML.load(file.read) or raise
 # pp src
@@ -37,6 +57,7 @@ File.open('db/data/forms.yml') do |file|
         display_order += 100
         FormMaster.create(
           form_id: form_id,
+          workflow_master: WorkflowMaster.find_by(id: raw['workflow_master_id']),
           display_order: raw_field['display_order'] || display_order,
           column_type: raw_field['type'],
           required: raw_field['required'] || false,
@@ -47,3 +68,5 @@ File.open('db/data/forms.yml') do |file|
     end
   end
 end
+
+

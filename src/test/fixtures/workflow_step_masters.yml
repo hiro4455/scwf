@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  workflow_master: one
+  name: MyString
+  flow_step: 1
+  name: MyString
+  approve_type: MyString
+  editable: false
+
+two:
+  workflow_master: two
+  name: MyString
+  flow_step: 1
+  name: MyString
+  approve_type: MyString
+  editable: false
