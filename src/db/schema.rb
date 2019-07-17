@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_080936) do
+ActiveRecord::Schema.define(version: 2019_07_16_214149) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_080936) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "workflow_master_id"
+    t.index ["workflow_master_id"], name: "index_form_masters_on_workflow_master_id"
   end
 
   create_table "forms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -63,6 +65,23 @@ ActiveRecord::Schema.define(version: 2019_07_15_080936) do
     t.string "remember_token"
   end
 
+  create_table "workflow_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "workflow_step_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "workflow_master_id"
+    t.string "name"
+    t.integer "flow_step"
+    t.string "approve_type"
+    t.boolean "editable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workflow_master_id"], name: "index_workflow_step_masters_on_workflow_master_id"
+  end
+
   create_table "workflows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "request_id"
     t.bigint "user_id"
@@ -77,5 +96,6 @@ ActiveRecord::Schema.define(version: 2019_07_15_080936) do
 
   add_foreign_key "forms", "requests"
   add_foreign_key "requests", "users"
+  add_foreign_key "workflow_step_masters", "workflow_masters"
   add_foreign_key "workflows", "requests"
 end
