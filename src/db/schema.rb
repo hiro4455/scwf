@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_16_214149) do
+ActiveRecord::Schema.define(version: 2019_07_17_203413) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -82,6 +82,18 @@ ActiveRecord::Schema.define(version: 2019_07_16_214149) do
     t.index ["workflow_master_id"], name: "index_workflow_step_masters_on_workflow_master_id"
   end
 
+  create_table "workflow_step_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "workflow_master_id"
+    t.integer "template_id"
+    t.integer "flow_step"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["template_id"], name: "index_workflow_step_templates_on_template_id"
+    t.index ["user_id"], name: "index_workflow_step_templates_on_user_id"
+    t.index ["workflow_master_id"], name: "index_workflow_step_templates_on_workflow_master_id"
+  end
+
   create_table "workflows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "request_id"
     t.bigint "user_id"
@@ -97,5 +109,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_214149) do
   add_foreign_key "forms", "requests"
   add_foreign_key "requests", "users"
   add_foreign_key "workflow_step_masters", "workflow_masters"
+  add_foreign_key "workflow_step_templates", "users"
+  add_foreign_key "workflow_step_templates", "workflow_masters"
   add_foreign_key "workflows", "requests"
 end

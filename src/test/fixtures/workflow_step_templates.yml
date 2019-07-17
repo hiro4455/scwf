@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  workflow_master: one
+  template_id: 1
+  flow_step: 1
+  user: one
+
+two:
+  workflow_master: two
+  template_id: 1
+  flow_step: 1
+  user: two

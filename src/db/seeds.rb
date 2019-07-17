@@ -38,6 +38,21 @@ create_workflow = Proc.new do |raw|
   end
 end
 
+create_template = Proc.new do |raw|
+  template_id = raw['id']
+  raw['flow'].each do |raw_field|
+    flow_step = raw_field['flow_step']
+    workflow_master = WorkflowMaster.find_by(id: raw['workflow_master_id'])
+    raw_field['users'].each do |user_id|
+      WorkflowStepTemplate.create(
+        template_id: template_id,
+        workflow_master: workflow_master,
+        flow_step: flow_step,
+        user: User.find_by(id: user_id))
+    end
+  end
+end
+
 create_form = Proc.new do |raw|
   form_id = raw['id']
   display_order = 0
@@ -57,7 +72,8 @@ end
 
 functions = {
   'workflow' => create_workflow,
-  'form' => create_form
+  'form' => create_form,
+  'template' => create_template,
 }
 
 File.open('db/data/workflow.yml') do |file|
