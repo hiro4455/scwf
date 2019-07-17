@@ -25,48 +25,47 @@ CSV.foreach('db/data/users.csv', headers: true) do |csv|
   user.update_attributes!(raw)
 end
 
+create_workflow = Proc.new do |raw|
+  workflow_master = WorkflowMaster.create(id: raw['id'])
+  name = raw['name']
+  raw['flow'].each do |raw_field|
+    WorkflowStepMaster.create(
+      workflow_master: workflow_master,
+      flow_step: raw_field['flow_step'],
+      name: raw_field['name'],
+      approve_type: raw_field['approve_type'],
+      editable: raw_field['editable'])
+  end
+end
+
+create_form = Proc.new do |raw|
+  form_id = raw['id']
+  display_order = 0
+  raw['fields'].each do |raw_field|
+    display_order += 100
+    FormMaster.create(
+      form_id: form_id,
+      workflow_master: WorkflowMaster.find_by(id: raw['workflow_master_id']),
+      display_order: raw_field['display_order'] || display_order,
+      column_type: raw_field['type'],
+      required: raw_field['required'] || false,
+      name: raw_field['name'],
+      desc: raw_field['desc'],
+      value: raw_field['value'])
+  end
+end
+
+functions = {
+  'workflow' => create_workflow,
+  'form' => create_form
+}
+
 File.open('db/data/workflow.yml') do |file|
   src = YAML.load(file.read) or raise
   ActiveRecord::Base.transaction do
-    WorkflowStepMaster.delete_all
-    WorkflowMaster.delete_all
+    WorkflowMaster.destroy_all
     src.each do |raw|
-      workflow_master = WorkflowMaster.create(id: raw['id'])
-      name = raw['name']
-      raw['flow'].each do |raw_field|
-        WorkflowStepMaster.create(
-          workflow_master: workflow_master,
-          flow_step: raw_field['flow_step'],
-          name: raw_field['name'],
-          approve_type: raw_field['approve_type'],
-          editable: raw_field['editable'])
-      end
+      functions[raw['type']].call(raw)
     end
   end
 end
-
-File.open('db/data/forms.yml') do |file|
-  src = YAML.load(file.read) or raise
-# pp src
-  FormMaster.transaction do
-    FormMaster.delete_all
-    src.each do |raw|
-      form_id = raw['id']
-      display_order = 0
-      raw['fields'].each do |raw_field|
-        display_order += 100
-        FormMaster.create(
-          form_id: form_id,
-          workflow_master: WorkflowMaster.find_by(id: raw['workflow_master_id']),
-          display_order: raw_field['display_order'] || display_order,
-          column_type: raw_field['type'],
-          required: raw_field['required'] || false,
-          name: raw_field['name'],
-          desc: raw_field['desc'],
-          value: raw_field['value'])
-      end
-    end
-  end
-end
-
-
