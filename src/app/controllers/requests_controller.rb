@@ -6,7 +6,7 @@ class RequestsController < ApplicationController
     workflow_id = 2019071701
     @workflow = WorkflowMaster.find(workflow_id)
     @forms = @workflow.form_masters
-    @form_title = @forms.where(name: 'title').first
+    @form_title = @forms.find_by(behaviour: 'title')
     @steps = @workflow.workflow_step_masters
     @templates = @workflow.workflow_step_templates
   end
@@ -22,14 +22,15 @@ class RequestsController < ApplicationController
     #ActiveRecord::Base.transaction do
     user = @current_user
     workflow = WorkflowMaster.find(params[:request][:workflow_id])
-    forms = workflow.form_masters
+    forms = workflow.form_masters.all
     steps = workflow.workflow_step_masters
     flow_step = steps.first.flow_step
     request = user.requests.create(
       workflow_master: workflow,
       status: '申請中',
       current_step:  flow_step,
-      name: "#{workflow.name}(#{})")
+      name: "#{workflow.name}")
+    name = nil
     forms.each do |form|
       request.forms.create(
         request: request,
@@ -38,7 +39,10 @@ class RequestsController < ApplicationController
         desc: form['desc'],
         required: form['required'],
         value: params[:request][form['name']])
+      name = "#{workflow.name}(#{params[:request][form['name']]})" if form.behaviour == 'subject'
     end
+    request.update!(name: name) unless name.blank?
+
     steps.sort{|x| x.flow_step}.reverse.each do |step|
       authors = params[:request][step.flow_step.to_s].split(',')
       authors.each do |user_id|

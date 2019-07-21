@@ -9,25 +9,26 @@
 require 'csv'
 require 'yaml'
 
-CSV.foreach('db/data/users.csv', headers: true) do |csv|
-  raw = {
-    id: csv['社員番号'],
-    name: csv['名前1'], 
-    mail: csv['mailアドレス'],
-    kubun: csv['区分'],
-    jigyoubu: csv['所属事業部'],
-    bumon: csv['所属部門'],
-    ka: csv['所属課'],
-    job_class: csv['職位'],
-    password: csv['password']
-  }
-  user = User.find_or_initialize_by(id: raw[:id])
-  user.update_attributes!(raw)
+unless true #ARGV.any?{|x| x == '--no-build-user'}
+  CSV.foreach('db/data/users.csv', headers: true) do |csv|
+    raw = {
+      id: csv['社員番号'],
+      name: csv['名前1'], 
+      mail: csv['mailアドレス'],
+      kubun: csv['区分'],
+      jigyoubu: csv['所属事業部'],
+      bumon: csv['所属部門'],
+      ka: csv['所属課'],
+      job_class: csv['職位'],
+      password: csv['password']
+    }
+    user = User.find_or_initialize_by(id: raw[:id])
+    user.update_attributes!(raw)
+  end
 end
 
 create_workflow = Proc.new do |raw|
-  workflow_master = WorkflowMaster.create(id: raw['id'])
-  name = raw['name']
+  workflow_master = WorkflowMaster.create(id: raw['id'], name: raw['name'])
   raw['flow'].each do |raw_field|
     workflow_master.update(approving_step: raw_field['flow_step']) if raw_field.has_key?('approving_point')
     WorkflowStepMaster.create(
@@ -67,7 +68,8 @@ create_form = Proc.new do |raw|
       required: raw_field['required'] || false,
       name: raw_field['name'],
       desc: raw_field['desc'],
-      value: raw_field['value'])
+      value: raw_field['value'],
+      behaviour: raw_field['behaviour'])
   end
 end
 
