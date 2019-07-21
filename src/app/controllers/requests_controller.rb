@@ -61,8 +61,19 @@ class RequestsController < ApplicationController
           flow_step: step.flow_step)
       end
     end
-    redirect_to requests_path
+    redirect_to confirm_request_path request
   end
+
+  def confirm
+    @user = @current_user
+    @request = Request.find(params[:id])
+    @workflow_master = @request.workflow_master
+    @steps = @workflow_master.workflow_step_masters.all
+    @forms = @request.forms
+    @workflows = @request.workflows.all
+    @need_sign = @request.workflows.where(user:@user).where(approved: nil)
+  end
+
 
   def review
     @user = @current_user
