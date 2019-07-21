@@ -32,13 +32,20 @@ class RequestsController < ApplicationController
       name: "#{workflow.name}")
     name = nil
     forms.each do |form|
-      request.forms.create(
+      value = params[:request][form['name']]
+      attached = nil
+      if value.class.name == "ActionDispatch::Http::UploadedFile"
+        attached = value
+        value = attached.original_filename
+      end
+      new_form = request.forms.create(
         request: request,
         name: form['name'],
         column_type: form['column_type'],
         desc: form['desc'],
         required: form['required'],
-        value: params[:request][form['name']])
+        value: value,
+        file: attached)
       name = "#{workflow.name}(#{params[:request][form['name']]})" if form.behaviour == 'subject'
     end
     request.update!(name: name) unless name.blank?

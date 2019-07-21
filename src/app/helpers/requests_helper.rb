@@ -8,6 +8,14 @@ module RequestsHelper
     template.each_with_object({}) {|v,h| h[username v.user]=v.user.id}
   end
 
+  def review_text form
+    return nil if form.value.nil?
+    if form.file.attached?
+      return link_to form.file.filename.to_s, url_for(form.file)
+    end
+    sanitize(form.value.gsub("\n","<br>"))
+  end
+
   def to_html form, f
     value = extract_placeholder form.value || ""
     case form.column_type
