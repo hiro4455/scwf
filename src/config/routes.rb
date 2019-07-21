@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :requests do
     member do
       get :review
+      get :confirm
       post :approve
     end
   end

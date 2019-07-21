@@ -1,0 +1,38 @@
+<h3>申請内容</h3>
+<div class="request_form_element">
+<table>
+<% @forms.each do |form| %>
+  <tr>
+  <th><%= form.name %></th>
+  <!--- <td><%= sanitize(form.value.gsub("\n","<br>")) unless form.value.nil? %></td> -->
+  <td><%= review_text form %></td>
+  </tr>
+<% end %>
+</table>
+</div>
+
+<h3>申請経路</h3>
+ 
+<div class="request_workflow_element">
+<table>
+<% @steps.each do |step| %>
+  <tr>
+    <th style="width: 2em"><%= step.flow_step %></th> 
+    <th><%= step.name %><br><%= "(#{step.approve_type})" %></th> 
+    <td>
+    <% @workflows.where(flow_step: step.flow_step).each do |workflow| %>
+      <table>
+      <tr>
+      <td style="width: 2em"><%= workflow.approved ? "済":"" %></td><td><%= username workflow.user %></td>
+      </tr>
+      </table>
+    <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+</div>
+
+<%= form_for :request, url: approve_request_path do |f| %>
+<%= f.submit '申請を送信する'%>
+<% end %>
