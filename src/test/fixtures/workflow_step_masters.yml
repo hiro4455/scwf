@@ -15,3 +15,26 @@ two:
   name: MyString
   approve_type: MyString
   editable: false
+
+
+can_move1:
+  workflow_master: can_move
+  name: can_move1
+  flow_step: 1
+  name: MyString
+  approve_type: all
+  editable: false
+can_move2:
+  workflow_master: can_move
+  name: can_move2
+  flow_step: 2
+  name: MyString
+  approve_type: all
+  editable: false
+can_move3:
+  workflow_master: can_move
+  name: can_move3
+  flow_step: 3
+  name: MyString
+  approve_type: any
+  editable: false

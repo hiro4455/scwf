@@ -3,11 +3,29 @@
 one:
   status: MyString
   user: one
+  current_step: 1
+  workflow_master_id: one
+  created_at: '2019-01-01'
 
 two:
   status: MyString
   user: two
+  current_step: 1
+  workflow_master_id: one
+  created_at: '2019-01-01'
 
 three:
   status: MyString
   user: three
+  current_step: 1
+  workflow_master_id: one
+  created_at: '2019-01-01'
+
+
+can_move:
+  status: can_move
+  user: one
+  current_step: 1
+  approving_step: 3
+  workflow_master: can_move
+  created_at: '2019-01-01'

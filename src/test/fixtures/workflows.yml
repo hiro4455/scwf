@@ -3,9 +3,40 @@
 one:
   request: one
   user: one
-  approved: false
+  approved: nil
 
 two:
   request: one
   user: two
-  approved: false
+  approved: nil
+
+can_move1:
+  flow_step: 1
+  request: can_move
+  user: one
+  approved: # be null
+  required: true
+can_move2:
+  flow_step: 2
+  request: can_move
+  user: one
+  approved: # be null
+  required: true
+can_move2_2:
+  flow_step: 2
+  request: can_move
+  user: two
+  approved: # be null
+  required: true
+can_move3:
+  flow_step: 3
+  request: can_move
+  user: one
+  approved: # be null
+  required: true
+can_move3_2:
+  flow_step: 3
+  request: can_move
+  user: two
+  approved: # be null
+  required: true
