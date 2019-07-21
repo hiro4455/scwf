@@ -1,28 +1,35 @@
 class RequestsController < ApplicationController
 
   def new
-    form_id = 2019071301
     @user = @current_user
     @users = User.all
-    @forms = FormMaster.where(form_id: form_id)
-    @form_title = FormMaster.where(form_id: form_id).where(name: 'title').first
+    workflow_id = 2019071701
+    @workflow = WorkflowMaster.find(workflow_id)
+    @forms = @workflow.form_masters
+    @form_title = @forms.where(name: 'title').first
+    @steps = @workflow.workflow_step_masters
+    @templates = @workflow.workflow_step_templates
   end
 
   def index
     @user = @current_user
     @requests = @user.requests
-    @waiting_requests = Workflow.where(user:@user).where(approved: nil).map{|x| x.request}
+    @waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}
     @my_requests = @user.requests
   end
 
   def create
+    #ActiveRecord::Base.transaction do
     user = @current_user
-    forms = FormMaster.where(form_id: params[:request][:form_id])
-    flow_number = 1
+    workflow = WorkflowMaster.find(params[:request][:workflow_id])
+    forms = workflow.form_masters
+    steps = workflow.workflow_step_masters
+    flow_step = steps.first.flow_step
     request = user.requests.create(
+      workflow_master: workflow,
       status: '申請中',
-      current_step:  flow_number,
-      name: params[:request][:title])
+      current_step:  flow_step,
+      name: "#{workflow.name}(#{})")
     forms.each do |form|
       request.forms.create(
         request: request,
@@ -32,41 +39,34 @@ class RequestsController < ApplicationController
         required: form['required'],
         value: params[:request][form['name']])
     end
-    request.workflows.create(
-      user: User.find(params[:request]['author1']),
-      required: params[:request]['required'],
-      approved: nil,
-      flow_step: flow_number)
+    steps.sort{|x| x.flow_step}.reverse.each do |step|
+      authors = params[:request][step.flow_step.to_s].split(',')
+      authors.each do |user_id|
+        request.workflows.create(
+          user: User.find(user_id),
+          required: step.approve_type == "all",
+          approved: nil,
+          flow_step: step.flow_step)
+      end
+    end
     redirect_to requests_path
   end
 
   def review
     @user = @current_user
     @request = Request.find(params[:id])
+    @workflow_master = @request.workflow_master
+    @steps = @workflow_master.workflow_step_masters.all
     @forms = @request.forms
     @workflows = @request.workflows.all
     @need_sign = @request.workflows.where(user:@user).where(approved: nil)
   end
 
   def approve
-    @user = @current_user
     request = Request.find(params[:id])
-    need_sign = request.workflows.where(user:@user).where(approved: nil)
-    need_sign.each do |workflow|
-      workflow.approved = true
-      workflow.save
-    end
-    current = request.workflows.where(flow_step: request.current_step).all
-    if current.all{|x| x.approved}
-      new_flow = request.workflows.where("flow_step > ?", current.first.flow_step).first
-      if new_flow.blank?
-        request.status = '承認'
-      else
-        request.current_step = new_flow.flow_step
-      end
-      request.save
-      redirect_to requests_path
-    end
+    request.current_workflow.approve_by!(@current_user)
+    request.move_forward! if request.can_move_next?
+    redirect_to requests_path
   end
 
 end

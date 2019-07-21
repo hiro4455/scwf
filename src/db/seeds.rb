@@ -29,6 +29,7 @@ create_workflow = Proc.new do |raw|
   workflow_master = WorkflowMaster.create(id: raw['id'])
   name = raw['name']
   raw['flow'].each do |raw_field|
+    workflow_master.update(approving_step: raw_field['flow_step']) if raw_field.has_key?('approving_point')
     WorkflowStepMaster.create(
       workflow_master: workflow_master,
       flow_step: raw_field['flow_step'],

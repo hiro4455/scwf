@@ -1,4 +1,13 @@
 module RequestsHelper
+
+  def username user
+    "#{user.name}(#{user.id})"
+  end
+
+  def author_list template
+    template.each_with_object({}) {|v,h| h[username v.user]=v.user.id}
+  end
+
   def to_html form, f
     value = extract_placeholder form.value || ""
     case form.column_type
