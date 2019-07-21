@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_203413) do
+ActiveRecord::Schema.define(version: 2019_07_21_063018) do
 
   create_table "form_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_203413) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "workflow_master_id"
+    t.string "behaviour"
     t.index ["workflow_master_id"], name: "index_form_masters_on_workflow_master_id"
   end
 
@@ -47,8 +48,11 @@ ActiveRecord::Schema.define(version: 2019_07_17_203413) do
     t.bigint "workflow_id"
     t.string "name"
     t.integer "current_step"
+    t.bigint "workflow_master_id"
+    t.integer "approving_step"
     t.index ["user_id"], name: "index_requests_on_user_id"
     t.index ["workflow_id"], name: "index_requests_on_workflow_id"
+    t.index ["workflow_master_id"], name: "index_requests_on_workflow_master_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -69,6 +73,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_203413) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "approving_step"
   end
 
   create_table "workflow_step_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

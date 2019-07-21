@@ -14,7 +14,14 @@ h3 {
 }
 
 table {
-  width: 100%
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+tr, td, th {
+  border: 1px solid #eee;
 }
 
 .request_form_element input {
@@ -31,3 +38,25 @@ table {
   background: pink;
   border-radius: 5px;
 }
+
+.request_workflow_element table {
+  width: initial;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+.request_workflow_element th {
+  width: 16em;
+  background: pink;
+  border-radius: 5px;
+}
+
+.request_workflow_authors {
+  width: 13em;
+}
+
+.flow_step th {
+  width: 2em;
+}
+

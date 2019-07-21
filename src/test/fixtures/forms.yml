@@ -3,7 +3,6 @@
 one:
   request: one
   name: MyString
-  type: 
   desc: MyString
   required: false
   value: MyString
@@ -11,7 +10,6 @@ one:
 two:
   request: two
   name: MyString
-  type: 
   desc: MyString
   required: false
   value: MyString

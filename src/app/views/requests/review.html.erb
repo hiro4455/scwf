@@ -13,9 +13,25 @@
 
 <h3>申請経路</h3>
  
-<% @workflows.order(:flow_step).each do |workflow| %>
-<%= workflow.user.name %>
+<div class="request_workflow_element">
+<table>
+<% @steps.each do |step| %>
+  <tr>
+    <th style="width: 2em"><%= step.flow_step %></th> 
+    <th><%= step.name %><br><%= "(#{step.approve_type})" %></th> 
+    <td>
+    <% @workflows.where(flow_step: step.flow_step).each do |workflow| %>
+      <table>
+      <tr>
+      <td style="width: 2em"><%= workflow.approved ? "済":"" %></td><td><%= username workflow.user %></td>
+      </tr>
+      </table>
+    <% end %>
+    </td>
+  </tr>
 <% end %>
+</table>
+</div>
 
 <%= form_for :request, url: approve_request_path do |f| %>
 <%= f.submit 'approve'%>

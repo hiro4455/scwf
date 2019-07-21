@@ -7,6 +7,7 @@ one:
   bumon: MyString
   ka: MyString
   job_class: MyString
+  password_digest: $2a$12$Inog2kc2FYlEojALIj14LeoTjFgm6/PPwfZmEUdrajU154tBNS/yi
 
 two:
   name: MyString
@@ -15,3 +16,4 @@ two:
   bumon: MyString
   ka: MyString
   job_class: MyString
+  password_digest: $2a$12$Inog2kc2FYlEojALIj14LeoTjFgm6/PPwfZmEUdrajU154tBNS/yi
