@@ -5,7 +5,8 @@
 <% @forms.each do |form| %>
   <tr>
   <th><%= form.name %></th>
-  <td><%= sanitize(form.value.gsub("\n","<br>")) unless form.value.nil? %></td>
+  <!--- <td><%= sanitize(form.value.gsub("\n","<br>")) unless form.value.nil? %></td> -->
+  <td><%= review_text form %></td>
   </tr>
 <% end %>
 </table>
