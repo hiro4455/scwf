@@ -5,7 +5,9 @@
 
 <h3>申請を出す</h3>
 <ul>
-<li><%= link_to '申請を作成する', new_request_path %> </li>
+<% @workflow_masters.each do |workflow| %>
+<li><%= link_to workflow.name, new_request_path(workflow: workflow) %> </li>
+<% end %>
 </ul>
 
 <h3>申請を見る</h3>

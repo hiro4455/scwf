@@ -1,21 +1,22 @@
 class RequestsController < ApplicationController
 
-  def new
-    @user = @current_user
-    @users = User.all
-    workflow_id = 2019071701
-    @workflow = WorkflowMaster.find(workflow_id)
-    @forms = @workflow.form_masters
-    @form_title = @forms.find_by(behaviour: 'title')
-    @steps = @workflow.workflow_step_masters
-    @templates = @workflow.workflow_step_templates
-  end
-
   def index
     @user = @current_user
     @requests = @user.requests
     @waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}
     @my_requests = @user.requests
+    @workflow_masters = WorkflowMaster.all
+  end
+
+  def new
+    @user = @current_user
+    @users = User.all
+    workflow_id = params[:workflow]
+    @workflow = WorkflowMaster.find(workflow_id)
+    @forms = @workflow.form_masters
+    @form_title = @forms.find_by(behaviour: 'title')
+    @steps = @workflow.workflow_step_masters
+    @templates = @workflow.workflow_step_templates
   end
 
   def create
