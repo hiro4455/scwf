@@ -20,7 +20,7 @@ module RequestsHelper
       when 'textarea'
         return f.text_area form.name, value: value
       when 'select'
-        return f.select form.name, value
+        return f.select form.name, value , selected: @current_user.bumon
       when 'date'
         return f.date_field form.name, value: Time.now.strftime("%Y-%m-%d")
       when 'file'
@@ -32,7 +32,7 @@ module RequestsHelper
   def extract_placeholder name
     case name
       when '{CurrentUser}'
-        return @user.name
+        return @current_user.name
       when '{department}'
         return User.all.map{|x| x['bumon']}.uniq.sort
     end
