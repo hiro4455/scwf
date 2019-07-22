@@ -1,15 +1,24 @@
 <h2><%= @user.name %></h2>
 
+<section class="list">
+<% unless @waiting_requests.blank? %>
 <h3>申請を承認する</h3>
 <%= render 'list', requests: @waiting_requests unless @waiting_requests.blank? %>
+<% end %>
+</section>
 
+<section class="list">
 <h3>申請を出す</h3>
 <ul>
 <% @workflow_masters.each do |workflow| %>
 <li><%= link_to workflow.name, new_request_path(workflow: workflow) %> </li>
 <% end %>
 </ul>
+</section>
 
+<section class="list">
+<% unless @my_requests.blank? %>
 <h3>申請を見る</h3>
 <%= render 'list', requests: @my_requests unless @my_requests.blank? %>
-
+<% end %>
+</section>
