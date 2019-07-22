@@ -2,9 +2,9 @@ class RequestsController < ApplicationController
 
   def index
     @user = @current_user
-    @requests = @user.requests
-    @waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}
-    @my_requests = @user.requests
+    @requests = @user.requests.where(draft: nil)
+    @waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}.select{|x| not x.draft?}
+    @my_requests = @user.requests.where(draft: nil)
     @workflow_masters = WorkflowMaster.all
   end
 
@@ -22,12 +22,14 @@ class RequestsController < ApplicationController
   def create
     #ActiveRecord::Base.transaction do
     user = @current_user
+    user.requests.where(draft: true).destroy_all
     workflow = WorkflowMaster.find(params[:request][:workflow_id])
     forms = workflow.form_masters.all
     steps = workflow.workflow_step_masters
     request = user.requests.create(
+      draft: true,
       workflow_master: workflow,
-      status: '申請中',
+      status: '作成中',
       current_step: steps.first.flow_step,
       approving_step: workflow.approving_step,
       name: "#{workflow.name}")
@@ -72,6 +74,14 @@ class RequestsController < ApplicationController
     @forms = @request.forms
     @workflows = @request.workflows.all
     @need_sign = @request.workflows.where(user:@user).where(approved: nil)
+  end
+
+  def apply
+    @request = Request.find(params[:id])
+    @request.draft = nil
+    @request.status = '申請中'
+    @request.save!
+    redirect_to requests_path
   end
 
 

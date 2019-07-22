@@ -29,6 +29,10 @@ class Request < ApplicationRecord
     CurrentWrokflow.new(self)
   end
 
+  def draft?
+    draft == true
+  end
+
   def can_move_next?
     current_step_master = workflow_master.workflow_step_masters.find_by(flow_step: current_step)
     current_approvals = workflows.where(flow_step: current_step).all

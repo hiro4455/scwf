@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_092147) do
+ActiveRecord::Schema.define(version: 2019_07_22_200550) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2019_07_21_092147) do
     t.integer "current_step"
     t.bigint "workflow_master_id"
     t.integer "approving_step"
+    t.boolean "draft"
     t.index ["user_id"], name: "index_requests_on_user_id"
     t.index ["workflow_id"], name: "index_requests_on_workflow_id"
     t.index ["workflow_master_id"], name: "index_requests_on_workflow_master_id"

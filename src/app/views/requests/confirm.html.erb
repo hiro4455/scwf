@@ -33,6 +33,6 @@
 </table>
 </div>
 
-<%= form_for :request, url: requests_path, method: :get do |f| %>
+<%= form_for :request, url: apply_request_path(@request) do |f| %>
 <%= f.submit '申請を送信する'%>
 <% end %>
