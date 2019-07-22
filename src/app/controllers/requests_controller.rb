@@ -25,11 +25,11 @@ class RequestsController < ApplicationController
     workflow = WorkflowMaster.find(params[:request][:workflow_id])
     forms = workflow.form_masters.all
     steps = workflow.workflow_step_masters
-    flow_step = steps.first.flow_step
     request = user.requests.create(
       workflow_master: workflow,
       status: '申請中',
-      current_step:  flow_step,
+      current_step: steps.first.flow_step,
+      approving_step: workflow.approving_step,
       name: "#{workflow.name}")
     name = nil
     forms.each do |form|
@@ -88,6 +88,7 @@ class RequestsController < ApplicationController
   def approve
     request = Request.find(params[:id])
     request.current_workflow.approve_by!(@current_user)
+    request.update!(status: "承認") if request.approved?
     request.move_forward! if request.can_move_next?
     redirect_to requests_path
   end
