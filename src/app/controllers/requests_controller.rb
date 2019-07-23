@@ -87,7 +87,6 @@ class RequestsController < ApplicationController
     redirect_to requests_path
   end
 
-
   def review
     @user = @current_user
     @request = Request.find(params[:id])
@@ -106,4 +105,10 @@ class RequestsController < ApplicationController
     redirect_to requests_path
   end
 
+  def reject
+    request = Request.find(params[:id])
+    request.current_workflow.reject_by!(@current_user)
+    request.update!(status: "却下", in_progress: nil)
+    redirect_to requests_path
+  end
 end

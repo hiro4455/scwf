@@ -37,6 +37,11 @@ module RequestsHelper
     ''
   end
 
+  def approval_character workflow
+    return "" if workflow.approved.nil?
+    workflow.approved ? "済":"却下"
+  end
+
   def extract_placeholder name
     case name
       when '{CurrentUser}'
