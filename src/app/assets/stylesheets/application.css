@@ -23,8 +23,16 @@
   padding-bottom: 1px;
 }
 
+.header a:visited {
+  color: #eee
+}
+
 .app_title {
-  font-size: 20px;
+  font: italic 2em "Fira Sans", serif;
+  color: #eee
+}
+.app_title a:visited {
+  color: #eee
 }
 
 .logedin {
