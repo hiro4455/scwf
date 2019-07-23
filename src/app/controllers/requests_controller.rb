@@ -2,8 +2,9 @@ class RequestsController < ApplicationController
 
   def index
     @user = @current_user
-    @requests = @user.requests.where(draft: nil)
-    @waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}.select{|x| not x.draft?}
+    @requests = @user.requests.where(in_progress: true)
+    #@waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}.select{|x| not x.draft?}
+    @waiting_requests = Workflow.where(user:@user).where(approved: nil).joins(:request).merge(Request.where(in_progress: true)).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}
     @my_requests = @user.requests.where(draft: nil)
     @workflow_masters = WorkflowMaster.all
   end
@@ -28,6 +29,7 @@ class RequestsController < ApplicationController
     steps = workflow.workflow_step_masters
     request = user.requests.create(
       draft: true,
+      in_progress: nil,
       workflow_master: workflow,
       status: '作成中',
       current_step: steps.first.flow_step,
@@ -79,6 +81,7 @@ class RequestsController < ApplicationController
   def apply
     @request = Request.find(params[:id])
     @request.draft = nil
+    @request.in_progress = true;
     @request.status = '申請中'
     @request.save!
     redirect_to requests_path
@@ -98,7 +101,7 @@ class RequestsController < ApplicationController
   def approve
     request = Request.find(params[:id])
     request.current_workflow.approve_by!(@current_user)
-    request.update!(status: "承認") if request.approved?
+    request.update!(status: "承認", in_progress: nil) if request.approved?
     request.move_forward! if request.can_move_next?
     redirect_to requests_path
   end
