@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title>APPLICATION CENTER</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -12,7 +12,7 @@
   <body>
     <header>
       <div class="header">
-      <div class="app_title">Application center</div>
+      <div class="app_title"><%= link_to "APPLICATION CENTER", requests_path %></div>
       <div class="logedin"><%= @current_user.name unless @current_user.blank? %></div>
       <div class="logout"><%= link_to '[logout]', login_path, method: :delete if signed_in? %></div>
       </div>
