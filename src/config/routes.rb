@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get :confirm
       post :apply
       post :approve
+      post :reject
     end
   end
 
