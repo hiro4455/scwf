@@ -8,11 +8,11 @@ window.showMsg = (msg) ->
 
 window.addToAuthor = (autherListId, autherListValuesId)->
   
-  candidates = `[...document.getElementById("candidates").selectedOptions]`
+  candidates = to_array(document.getElementById("candidates").selectedOptions)
   authors = document.getElementById(autherListId)
 
   # remove duplicate entry
-  `[...authors]`.forEach (author) ->
+  to_array(authors).forEach (author) ->
     toBeRemove = candidates.findIndex((x) -> x.value == author.value)
     if toBeRemove != -1
       candidates.splice(toBeRemove, 1)
@@ -36,9 +36,15 @@ window.removeFromAuthor = (autherListId, autherListValuesId) ->
 
   # remove from authors list
   authors = document.getElementById(autherListId)
-  `[...authors.selectedOptions]`.map((x) => x.index).reverse().forEach (toBeRemove) ->
+  to_array(authors.selectedOptions).map((x) => x.index).reverse().forEach (toBeRemove) ->
     authors.remove(toBeRemove)
 
   # rebuild authors value as CSV
   authorsList = document.getElementById(autherListValuesId)
-  authorsList.value = `[...authors]`.map((x) => x.value).join(",")
+  authorsList.value = to_array(authors).map((x) => x.value).join(",")
+
+to_array = (collection) -> 
+  result = []
+  for item in collection
+    result.push(item)
+  result
