@@ -9,6 +9,17 @@
 require 'csv'
 require 'yaml'
 
+CSV.foreach('db/data/organization.csv', headers: true) do |csv|
+  raw = {
+    id: csv['id'],
+    parent: csv['parent'],
+    level: csv['level'],
+    name: csv['name'], 
+  }
+  organization = Organization.find_or_initialize_by(id: raw[:id])
+  organization.update_attributes!(raw)
+end
+
 unless true #ARGV.any?{|x| x == '--no-build-user'}
   CSV.foreach('db/data/users.csv', headers: true) do |csv|
     raw = {

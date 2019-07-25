@@ -47,7 +47,7 @@ module RequestsHelper
       when '{CurrentUser}'
         return @current_user.name
       when '{department}'
-        return User.all.map{|x| x['bumon']}.uniq.sort
+        return Organization.where(level: 2).map{|x| x.name}
     end
     name
   end
