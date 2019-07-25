@@ -10,16 +10,18 @@ class Request < ApplicationRecord
       @workflows = request.workflows.where(flow_step: request.current_step)
     end
 
-    def approve_by!(user)
+    def approve_by!(user, comment=nil)
       @workflows.where(user: user).where(approved: nil).each do |workflow|
         workflow.approved = true
+        workflow.comment = comment
         workflow.save
       end
     end
 
-    def reject_by!(user)
+    def reject_by!(user, comment=nil)
       @workflows.where(user: user).where(approved: nil).each do |workflow|
         workflow.approved = false
+        workflow.comment = comment
         workflow.save
       end
     end
