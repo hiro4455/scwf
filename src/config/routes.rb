@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get :review
       get :confirm
       post :apply
+      post :submit
       post :approve
       post :reject
     end

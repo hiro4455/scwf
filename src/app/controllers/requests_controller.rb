@@ -97,9 +97,18 @@ class RequestsController < ApplicationController
     @need_sign = @request.workflows.where(user:@user).where(approved: nil)
   end
 
+  def submit
+    case params['commit']
+    when 'approve'
+      approve
+    when 'reject'
+      reject
+    end
+  end
+
   def approve
     request = Request.find(params[:id])
-    request.current_workflow.approve_by!(@current_user)
+    request.current_workflow.approve_by!(@current_user, params['request']['comment'])
     request.update!(status: "承認", in_progress: nil) if request.approved?
     request.move_forward! if request.can_move_next?
     redirect_to requests_path
@@ -107,7 +116,7 @@ class RequestsController < ApplicationController
 
   def reject
     request = Request.find(params[:id])
-    request.current_workflow.reject_by!(@current_user)
+    request.current_workflow.reject_by!(@current_user, params['request']['comment'])
     request.update!(status: "却下", in_progress: nil)
     redirect_to requests_path
   end
