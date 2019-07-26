@@ -14,15 +14,26 @@
  *= require_self
  */
 
+html {
+  font-size: 65%;
+}
+
+@media screen  and (orientation: portrait) {
+  html {
+    font-size: 100%;
+  }
+}
+
+
 body {
   font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
-  font-size: 1em;
+  font-size: 1.5rem;
   background: #f5fbf5;
 }
 
 .header {
   font-style: bold;
-  font-size: 12px;
+  font-size: 2rem;
   color: #eee;
   background: #089a68;
   background: linear-gradient(to top, #089a68, #58eab8 );
@@ -35,7 +46,7 @@ body {
 }
 
 .app_title {
-  font: italic 2em "Fira Sans", serif;
+  font: italic 3rem "Fira Sans", serif;
   color: #eee
 }
 .app_title a:visited {

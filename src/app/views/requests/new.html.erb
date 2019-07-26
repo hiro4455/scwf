@@ -2,7 +2,7 @@
 <%= form_for :request, url: requests_path do |f| %>
   <h3>申請内容の入力</h3>
   <div class="request_form_element">
-  <table>
+  <table class="tbl-r02">
   <% @forms.sort{|x| x.display_order}.reverse.each do |form| %>
     <tr>
     <th>
@@ -20,9 +20,9 @@
   <h3>申請経路</h3>
   <div class="request_workflow_element">
   <table>
-    <tr>
-      <td>経路ステップ</td><td>処理者</td><td style="width:5em"></td><td rowspan="<%= @steps.length+1 %>" "><%= select_tag "candidates", options_for_select(User.all.map{|x| [username(x), x.id] }.to_h), multiple: true, size:'15' %></td>
-    </tr>
+  <tr>
+  <td>
+  <table>
   <% @steps.each do |step| %>
     <tr>
       <th><%= step.name %><br><%= "(#{step.approve_type})" %></th> 
@@ -40,6 +40,10 @@
     </tr>
   <% end %>
   </table>
+  </td>
+  <td rowspan="<%= @steps.length+1 %>" ><%= select_tag "candidates", options_for_select(User.all.map{|x| [username(x), x.id] }.to_h), multiple: true, size:'15' %></td>
+  </tr>
+  <table>
   </div>
 
   <%= f.submit 'create'%>
