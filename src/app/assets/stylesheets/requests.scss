@@ -7,14 +7,17 @@
 }
 
 h3 {
-  font-style: bold;
-  font-size: 18px;
+  font-family: serif;
+  font-size: 1.5em;
+  letter-spacing: 0.2em;
   color: #eee;
-  background: #a33;
   padding-top: 1px;
   padding-left: 5px;
   padding-bottom: 1px;
   border-radius: 10px;
+  background: #089a68;
+  background: linear-gradient(to top, #089a68, #58eab8 );
+
 }
 
 table {
@@ -34,13 +37,16 @@ tr, td, th {
 
 .request_form_element textarea {
   width: 100%;
-  height: 80px;
+  height: 400px;
 }
 
 .request_form_element th {
-  width: 300px;
-  background: pink;
+  //width: 300px;
   border-radius: 5px;
+  text-align: left;
+  font-weight: normal;
+  background: #c8eab8;
+  background: linear-gradient(to top, #c8eab8, #d8fac8 );
 }
 
 .request_workflow_element table {
@@ -51,9 +57,12 @@ tr, td, th {
 }
 
 .request_workflow_element th {
-  width: 16em;
-  background: pink;
+  //width: 16em;
   border-radius: 5px;
+  text-align: left;
+  font-weight: normal;
+  background: #c8eab8;
+  background: linear-gradient(to top, #c8eab8, #d8fac8 );
 }
 
 .request_workflow_authors {
