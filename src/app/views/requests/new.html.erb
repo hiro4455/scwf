@@ -25,17 +25,17 @@
   <table>
   <% @steps.each do |step| %>
     <tr>
-      <th><%= step.name %><br><%= "(#{step.approve_type})" %></th> 
-      <td>
+      <th><%= step.name %><br><%= "(#{approve_type step})" %></th> 
+      <td style="width: 5rem">
       <% authors = author_list(@templates.where(flow_step: step.flow_step)) %>
       <% select_name = "authors"+step.flow_step.to_s %>
       <%= select_tag select_name, options_for_select(authors),
         :multiple => true, :class => "request_workflow_authors" %>
       <%= f.hidden_field step.flow_step, value: authors.values.join(",") %>
       </td>
-      <td style="display: flex; flex-direction: column; justify-content: space-around; align-content: space-around; align-items: stretch">
-          <%= link_to "<< 追加", 'javascript:void(0)', onclick: "addToAuthor('#{select_name}','request_#{step.flow_step}')"%><br>
-          <%= link_to "削除 >>", 'javascript:void(0)', onclick: "removeFromAuthor('#{select_name}','request_#{step.flow_step}')"%>
+      <td style="width:8rem;">
+          <%= link_to "<< 追加", 'javascript:void(0)', class: "button-add", onclick: "addToAuthor('#{select_name}','request_#{step.flow_step}')"%>
+          <%= link_to "削除 >>", 'javascript:void(0)', class:"button-del", onclick: "removeFromAuthor('#{select_name}','request_#{step.flow_step}')"%>
       </td>
     </tr>
   <% end %>
