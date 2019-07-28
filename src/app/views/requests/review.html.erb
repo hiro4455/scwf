@@ -15,17 +15,17 @@
 <h3>申請経路</h3>
  
 <div class="request_workflow_element">
-<table class="tbl-r02">
+<table>
 <% @steps.each do |step| %>
   <tr>
     <th>No. <%= step.flow_step %><br><%= step.name %><br><%= "(#{approve_type step})" %></th> 
     <td>
     <% @workflows.where(flow_step: step.flow_step).each do |workflow| %>
-      <table class="tbl-r03">
+      <table>
       <tr>
-      <td style="width: 3rem"><%= approval_character workflow %></td>
-      <td><%= username workflow.user %></td>
-      <td class="tbl-r03-comment"><%= workflow.comment unless workflow.comment.blank? %></td>
+      <td style="width: 3rem; min-width:3rem"><%= approval_character workflow %></td>
+      <td style="width: 5rem; min-width:5rem"><%= username workflow.user %></td>
+      <td style="max-width:30rem;white-space: pre-line;word-wrap:break-word"><%= workflow.comment unless workflow.comment.blank? %></td>
       </tr>
       </table>
     <% end %>
