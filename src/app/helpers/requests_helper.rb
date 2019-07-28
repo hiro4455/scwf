@@ -16,6 +16,15 @@ module RequestsHelper
     sanitize(form.value.gsub("\n","<br>"))
   end
 
+  def approve_type step
+    case step.approve_type
+    when 'all'
+      '全員の承認'
+    when 'any'
+      '一人の承認'
+    end
+  end
+
   def to_html form, f
     value = extract_placeholder form.value || ""
     case form.column_type
@@ -38,7 +47,7 @@ module RequestsHelper
   end
 
   def approval_character workflow
-    return "" if workflow.approved.nil?
+    return "　　" if workflow.approved.nil?
     workflow.approved ? "済":"却下"
   end
 

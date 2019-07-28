@@ -7,14 +7,16 @@
 }
 
 h3 {
-  font-style: bold;
-  font-size: 18px;
+  font-family: serif;
+  font-size: 2rem;
+  letter-spacing: 0.2em;
   color: #eee;
-  background: #a33;
   padding-top: 1px;
   padding-left: 5px;
   padding-bottom: 1px;
   border-radius: 10px;
+  background: #089a68;
+  background: linear-gradient(to top, #089a68, #58eab8 );
 }
 
 table {
@@ -28,32 +30,75 @@ tr, td, th {
   border: 1px solid #eee;
 }
 
+// ------------------------------------------------------------
 .request_form_element input {
   width: 100%;
+  font-size: 2rem;
 }
+
+.request_form_element select {
+  width: 100%;
+  font-size: 2rem;
+}
+
 
 .request_form_element textarea {
   width: 100%;
-  height: 80px;
+  height: 35rem;
 }
 
 .request_form_element th {
-  width: 300px;
-  background: pink;
+  //width: 300px;
   border-radius: 5px;
+  text-align: left;
+  font-weight: normal;
+  background: #c8eab8;
+  background: linear-gradient(to top, #c8eab8, #d8fac8 );
 }
 
+
+// ------------------------------------------------------------
+.request_comment_element input {
+  width: 100%;
+  font-size: 2rem;
+}
+
+.request_comment_element select {
+  width: 100%;
+  font-size: 2rem;
+}
+
+
+.request_comment_element textarea {
+  width: 100%;
+  height: 5rem;
+}
+
+.request_comment_element th {
+  //width: 300px;
+  border-radius: 5px;
+  text-align: left;
+  font-weight: normal;
+  background: #c8eab8;
+  background: linear-gradient(to top, #c8eab8, #d8fac8 );
+}
+
+
+
+// ------------------------------------------------------------
 .request_workflow_element table {
-  width: initial;
   border: 1px solid #bbb;
   border-radius: 5px;
   border-collapse: collapse;
 }
 
 .request_workflow_element th {
-  width: 16em;
-  background: pink;
+  width: 20rem;
   border-radius: 5px;
+  text-align: left;
+  font-weight: normal;
+  background: #c8eab8;
+  background: linear-gradient(to top, #c8eab8, #d8fac8 );
 }
 
 .request_workflow_authors {
@@ -64,3 +109,125 @@ tr, td, th {
   width: 2em;
 }
 
+.button-add{
+  font-size: 1rem;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #111;
+  background: #ccc;/*色*/
+  border-radius: 4px;/*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  border: solid 2px #999;/*線色*/
+}
+.button-del{
+  font-size: 1rem;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-align: right;
+  text-decoration: none;
+  color: #111;
+  background: #ccc;/*色*/
+  border-radius: 4px;/*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  border: solid 2px #999;/*線色*/
+}
+
+// ------------------------------------------------------------
+
+.button-submit {
+  font-size: 2rem;
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: #fd9535;/*色*/
+  border-radius: 4px;/*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  border: solid 2px #d27d00;/*線色*/
+}
+
+.button-submit:active {
+  /*押したとき*/
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.button-reject {
+  font-size: 2rem;
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: #fd3535;/*色*/
+  border-radius: 4px;/*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  border: solid 2px #d22d00;/*線色*/
+}
+
+.button-reject:active {
+  /*押したとき*/
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+@media screen  and (orientation: portrait) {
+  .last td:last-child {
+    border-bottom: solid 1px #ccc;
+    width: 100%;
+  }
+  .tbl-r02 {
+    border: 0px solid #bbb;
+    font-size: 2rem;
+    width: 90%;
+    margin: auto;
+  }
+  .tbl-r02 tr {
+    border: 0px solid #bbb;
+    display: block;
+    margin-bottom: 3rem;
+  }
+  .tbl-r02 th,
+  .tbl-r02 td {
+    border: 0px solid #bbb;
+　　border-bottom: none;
+    margin-top: 1rem;
+    display: block;
+    width: 100%;
+  }
+
+  .tbl-r03 {
+    font-size: 2rem;
+    width: 90%;
+    margin: auto;
+  }
+  .tbl-r03 table {
+    border: 0px solid #fff;
+  }
+  .tbl-r03 tr {
+    border: 0px;
+    display: table-row;
+    margin: 0;
+  }
+  .tbl-r03 th {
+    border: 0px;
+    display: table-cell;
+    margin: 0;
+  }
+  .tbl-r03 td {
+    display: table-cell;
+    border: 0px;
+    margin: 0;
+    font-size: 1.5rem;
+    width: 15rem;
+  }
+  .tbl-r03-comment  {
+    border: 0px;
+    display: table-cell;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 0.5em;
+  }
+}

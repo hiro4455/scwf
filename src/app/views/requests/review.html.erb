@@ -1,7 +1,7 @@
 
 <h3>申請内容</h3>
 <div class="request_form_element">
-<table>
+<table class="tbl-r02">
 <% @forms.each do |form| %>
   <tr>
   <th><%= form.name %></th>
@@ -15,18 +15,17 @@
 <h3>申請経路</h3>
  
 <div class="request_workflow_element">
-<table>
+<table class="tbl-r02">
 <% @steps.each do |step| %>
   <tr>
-    <th style="width: 2em"><%= step.flow_step %></th> 
-    <th><%= step.name %><br><%= "(#{step.approve_type})" %></th> 
+    <th>No. <%= step.flow_step %><br><%= step.name %><br><%= "(#{approve_type step})" %></th> 
     <td>
     <% @workflows.where(flow_step: step.flow_step).each do |workflow| %>
-      <table>
+      <table class="tbl-r03">
       <tr>
-      <td style="width: 2em"><%= approval_character workflow %></td>
+      <td style="width: 3rem"><%= approval_character workflow %></td>
       <td><%= username workflow.user %></td>
-      <td><%= " : " + workflow.comment unless workflow.comment.blank? %></td>
+      <td class="tbl-r03-comment"><%= workflow.comment unless workflow.comment.blank? %></td>
       </tr>
       </table>
     <% end %>
@@ -39,8 +38,8 @@
 <% if @request.in_progress == true %>
 <%= form_for :request, url: submit_request_path do |f| %>
 <h3>コメント</h3>
-<div class="request_form_element">
-<table>
+<div class="request_comment_element">
+<table class="tbl-r02">
 <tr>
   <th>名前</th>
   <td><%= username @user %></td>
@@ -52,7 +51,7 @@
 </table>
 </div>
 
-<%= f.submit 'approve', name: 'commit' %>
-<%= f.submit 'reject', name: 'commit' %>
+<%= f.submit '承認する', name: 'commit', class: 'button-submit' %>
+<%= f.submit '却下する', name: 'commit', class: 'button-reject' %>
 <% end %>
 <% end %>

@@ -2,7 +2,7 @@
 <%= form_for :request, url: requests_path do |f| %>
   <h3>申請内容の入力</h3>
   <div class="request_form_element">
-  <table>
+  <table class="tbl-r02">
   <% @forms.sort{|x| x.display_order}.reverse.each do |form| %>
     <tr>
     <th>
@@ -20,27 +20,34 @@
   <h3>申請経路</h3>
   <div class="request_workflow_element">
   <table>
-    <tr>
-      <td>経路ステップ</td><td>処理者</td><td style="width:5em"></td><td rowspan="<%= @steps.length+1 %>" "><%= select_tag "candidates", options_for_select(User.all.map{|x| [username(x), x.id] }.to_h), multiple: true, size:'15' %></td>
-    </tr>
+  <tr>
+  <td>
+  <table>
   <% @steps.each do |step| %>
     <tr>
-      <th><%= step.name %><br><%= "(#{step.approve_type})" %></th> 
-      <td>
+      <th><%= step.name %><br><%= "(#{approve_type step})" %></th> 
+      <td style="width: 5rem">
       <% authors = author_list(@templates.where(flow_step: step.flow_step)) %>
       <% select_name = "authors"+step.flow_step.to_s %>
       <%= select_tag select_name, options_for_select(authors),
         :multiple => true, :class => "request_workflow_authors" %>
       <%= f.hidden_field step.flow_step, value: authors.values.join(",") %>
       </td>
-      <td style="display: flex; flex-direction: column; justify-content: space-around; align-content: space-around; align-items: stretch">
-          <%= link_to "<< 追加", 'javascript:void(0)', onclick: "addToAuthor('#{select_name}','request_#{step.flow_step}')"%><br>
-          <%= link_to "削除 >>", 'javascript:void(0)', onclick: "removeFromAuthor('#{select_name}','request_#{step.flow_step}')"%>
+      <td style="width:8rem;">
+          <%= link_to "<< 追加", 'javascript:void(0)', class: "button-add", onclick: "addToAuthor('#{select_name}','request_#{step.flow_step}')"%>
+          <%= link_to "削除 >>", 'javascript:void(0)', class:"button-del", onclick: "removeFromAuthor('#{select_name}','request_#{step.flow_step}')"%>
       </td>
     </tr>
   <% end %>
   </table>
+  </td>
+  <td rowspan="<%= @steps.length+1 %>" >
+    <%= f.text_field "filter", value: "", oninput: "updateFilter('request_filter', 'candidates')"  %><%= link_to "x", 'javascript:void(0)', onclick: "clearFilter('request_filter', 'candidates')"%><br>
+    <%= select_tag "candidates", options_for_select(User.all.map{|x| [username(x)+"[#{x.mail.remove(/@.*$/)}]", x.id] }.to_h), multiple: true, size:'15' %>
+  </td>
+  </tr>
+  <table>
   </div>
 
-  <%= f.submit 'create'%>
+  <%= f.submit '内容を確認する', class: "button-submit"%>
 <% end %>

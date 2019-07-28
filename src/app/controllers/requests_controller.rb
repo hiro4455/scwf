@@ -99,9 +99,9 @@ class RequestsController < ApplicationController
 
   def submit
     case params['commit']
-    when 'approve'
+    when '承認する'
       approve
-    when 'reject'
+    when '却下する'
       reject
     end
   end
