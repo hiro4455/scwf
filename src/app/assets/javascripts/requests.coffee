@@ -43,6 +43,20 @@ window.removeFromAuthor = (autherListId, autherListValuesId) ->
   authorsList = document.getElementById(autherListValuesId)
   authorsList.value = to_array(authors).map((x) => x.value).join(",")
 
+window.updateFilter = (filterBox, target) ->
+  #
+  filterString = document.getElementById(filterBox).value
+  console.log(filterString)
+  to_array(document.getElementById(target).options).forEach (option) ->
+    if option.innerText.indexOf(filterString) == -1
+      option.setAttribute('hidden', 1)
+    else
+      option.removeAttribute('hidden')
+
+window.clearFilter = (filterBox, target) ->
+  filterString = document.getElementById(filterBox).value = ""
+  window.updateFilter(filterBox, target)
+
 to_array = (collection) -> 
   result = []
   for item in collection

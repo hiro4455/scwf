@@ -41,7 +41,10 @@
   <% end %>
   </table>
   </td>
-  <td rowspan="<%= @steps.length+1 %>" ><%= select_tag "candidates", options_for_select(User.all.map{|x| [username(x), x.id] }.to_h), multiple: true, size:'15' %></td>
+  <td rowspan="<%= @steps.length+1 %>" >
+    <%= f.text_field "filter", value: "", oninput: "updateFilter('request_filter', 'candidates')"  %><%= link_to "x", 'javascript:void(0)', onclick: "clearFilter('request_filter', 'candidates')"%><br>
+    <%= select_tag "candidates", options_for_select(User.all.map{|x| [username(x)+"[#{x.mail.remove(/@.*$/)}]", x.id] }.to_h), multiple: true, size:'15' %>
+  </td>
   </tr>
   <table>
   </div>
