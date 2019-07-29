@@ -90,12 +90,14 @@ functions = {
   'template' => create_template,
 }
 
-File.open('db/data/workflow.yml') do |file|
-  src = YAML.load(file.read) or raise
-  ActiveRecord::Base.transaction do
-    WorkflowMaster.destroy_all
-    src.each do |raw|
-      functions[raw['type']].call(raw)
+ActiveRecord::Base.transaction do
+  WorkflowMaster.destroy_all
+  Dir.glob("db/data/workflow/*.yml") do |yml_file|
+    File.open(yml_file) do |file|
+      src = YAML.load(file.read) or raise
+      src.each do |raw|
+        functions[raw['type']].call(raw)
+      end
     end
   end
 end
