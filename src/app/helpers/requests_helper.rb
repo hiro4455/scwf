@@ -27,13 +27,14 @@ module RequestsHelper
 
   def to_html form, f
     value = extract_placeholder form.value || ""
+    comment = form.desc
     case form.column_type
       when 'hidden'
         return f.hidden_field form.name, value: value
       when 'label'
         return f.text_field form.name, value: value, :readonly => true
       when 'text'
-        return f.text_field form.name, value: value
+        return f.text_field form.name, value: value, placeholder: comment
       when 'textarea'
         return f.text_area form.name, value: value
       when 'select'
@@ -57,6 +58,8 @@ module RequestsHelper
         return @current_user.name
       when '{department}'
         return Organization.where(level: 2).map{|x| x.name}
+      when /^\[.*\]$/
+        return name[1..-2].delete('"').split(',')
     end
     name
   end
