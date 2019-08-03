@@ -52,6 +52,18 @@ module RequestsHelper
     workflow.approved ? "済":"却下"
   end
 
+  def status_class status
+    case status
+      when '申請中'
+        return 'processing'
+      when '承認'
+        return 'approved'
+      when '却下'
+        return 'reject'
+    end
+    'processing'
+  end
+
   def extract_placeholder name
     case name
       when '{CurrentUser}'

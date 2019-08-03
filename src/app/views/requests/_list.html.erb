@@ -9,8 +9,8 @@
 <% requests.reverse.each do |request| %>
 <tr>
   <td><%= link_to request.name, review_request_path(request) %></td>
-  <th><%= request.user.name %></td>
-  <th><%= request.status %></td>
+  <td><%= request.user.name %></td>
+  <td><span class="<%=status_class request.status%>"><%= request.status %></span></td>
   <td><%= l(request.updated_at)  %></td>
   <td><%= l(request.created_at)  %></td>
 </tr>
