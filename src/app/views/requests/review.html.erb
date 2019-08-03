@@ -18,7 +18,7 @@
 <table>
 <% @steps.each do |step| %>
   <tr>
-    <th>No. <%= step.flow_step %><br><%= step.name %><br><%= "(#{approve_type step})" %></th> 
+    <th class="<%= step_class @request.current_step, step.flow_step %>">No. <%= step.flow_step %><br><%= step.name %><br><%= "(#{approve_type step})" %></th> 
     <td>
     <% @workflows.where(flow_step: step.flow_step).each do |workflow| %>
       <table>

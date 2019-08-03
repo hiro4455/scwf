@@ -119,6 +119,15 @@ th {
   background: linear-gradient(to top, #c8eab8, #d8fac8 );
 }
 
+.request_workflow_element_current {
+  font-weight: bold !important;
+  background: linear-gradient(to top, #97ee6f, #a8ee87 ) !important;
+}
+
+.request_workflow_element_other {
+  background: linear-gradient(to top, #c8eab8, #d8fac8 ) !important;
+}
+
 .request_workflow_authors {
   width: 13em;
 }

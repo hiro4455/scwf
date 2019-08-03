@@ -64,6 +64,10 @@ module RequestsHelper
     'processing'
   end
 
+  def step_class current, flow
+    current == flow ? 'request_workflow_element_current' : 'request_workflow_element_other'
+  end
+
   def extract_placeholder name
     case name
       when '{CurrentUser}'
