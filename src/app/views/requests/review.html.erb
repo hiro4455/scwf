@@ -18,12 +18,13 @@
 <table>
 <% @steps.each do |step| %>
   <tr>
-    <th>No. <%= step.flow_step %><br><%= step.name %><br><%= "(#{approve_type step})" %></th> 
+    <th class="<%= step_class @request.current_step, step.flow_step %>">No. <%= step.flow_step %><br><%= step.name %><br><%= "(#{approve_type step})" %></th> 
     <td>
     <% @workflows.where(flow_step: step.flow_step).each do |workflow| %>
       <table>
       <tr>
-      <td style="width: 3rem; min-width:3rem"><%= approval_character workflow %></td>
+      <% mark = approval_character workflow %>
+      <td style="width: 3rem; min-width:3rem"><span class="<%= status_class mark %>"><%= mark %></span></td>
       <td style="width: 10rem; min-width:10rem"><%= username workflow.user %></td>
       <td style="max-width:30rem;white-space: pre-line;word-wrap:break-word"><%= workflow.comment unless workflow.comment.blank? %></td>
       </tr>
