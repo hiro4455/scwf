@@ -39,12 +39,42 @@ module RequestsHelper
         return f.text_area form.name, value: value
       when 'select'
         return f.select form.name, value , selected: @current_user.bumon
+      when 'radio'
+        m = Struct.new(:id, :name)
+        value = value.map{|x| m.new(x,x) }
+        a = f.collection_radio_buttons(form.name, value, :id, :name) do |b|
+          b.label do
+            b.radio_button + b.text
+          end
+        end
+        return a;
+      when 'checkbox'
+        m = Struct.new(:id, :name)
+        value = value.map{|x| m.new(x,x) }
+        a = f.collection_check_boxes(form.name, value, :id, :name, include_hidden: false) do |b|
+          b.label do
+            b.check_box + b.text
+          end
+        end
+        return a;
       when 'date'
         return f.date_field form.name, value: Time.now.strftime("%Y-%m-%d")
       when 'file'
         return f.file_field form.name
     end
     ''
+  end
+
+  def extract_placeholder name
+    case name
+      when '{CurrentUser}'
+        return @current_user.name
+      when '{department}'
+        return Organization.where(level: 2).map{|x| x.name}
+      when /^\[.*\]$/
+        return name[1..-2].delete('"').split(',')
+    end
+    name
   end
 
   def approval_character workflow
@@ -68,15 +98,4 @@ module RequestsHelper
     current == flow ? 'request_workflow_element_current' : 'request_workflow_element_other'
   end
 
-  def extract_placeholder name
-    case name
-      when '{CurrentUser}'
-        return @current_user.name
-      when '{department}'
-        return Organization.where(level: 2).map{|x| x.name}
-      when /^\[.*\]$/
-        return name[1..-2].delete('"').split(',')
-    end
-    name
-  end
 end

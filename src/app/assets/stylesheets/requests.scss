@@ -59,7 +59,14 @@ th {
   font-size: 2rem;
 }
 
-
+.request_form_element input[type="radio" i]{
+  width: auto;
+  font-size: 2rem;
+}
+.request_form_element input[type="checkbox" i]{
+  width: auto;
+  font-size: 2rem;
+}
 .request_form_element textarea {
   width: 100%;
   height: 35rem;
