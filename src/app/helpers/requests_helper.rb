@@ -48,6 +48,15 @@ module RequestsHelper
           end
         end
         return a;
+      when 'checkbox'
+        m = Struct.new(:id, :name)
+        value = value.map{|x| m.new(x,x) }
+        a = f.collection_check_boxes(form.name, value, :id, :name, include_hidden: false) do |b|
+          b.label do
+            b.check_box + b.text
+          end
+        end
+        return a;
       when 'date'
         return f.date_field form.name, value: Time.now.strftime("%Y-%m-%d")
       when 'file'
