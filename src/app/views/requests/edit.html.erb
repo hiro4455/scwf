@@ -9,7 +9,7 @@
     <%= f.label form.name, form.name unless form.column_type == 'hidden' %>
     </th>
     <td>
-    <%= to_html(form, f) unless form.name.nil?%>
+    <%= to_edit(form, f, @request.forms.find_by(name: form.name)) unless form.name.nil?%>
     <td>
   <% end %>
   <%= f.hidden_field :form_id, value: @form_masters[0].form_id %>
@@ -27,15 +27,15 @@
     <tr>
       <th><%= step.name %><br><%= "(#{approve_type step})" %></th> 
       <td style="width: 5rem">
-      <% authors = author_list(@step_templates.where(flow_step: step.flow_step)) %>
-      <% select_name = "authors"+step.flow_step.to_s %>
-      <%= select_tag select_name, options_for_select(authors),
-        :multiple => true, :class => "request_workflow_authors" %>
-      <%= f.hidden_field step.flow_step, value: authors.values.join(",") %>
+        <% authors = author_list(@request.workflows.where(flow_step: step.flow_step)) %>
+        <% select_name = "authors"+step.flow_step.to_s %>
+        <%= select_tag select_name, options_for_select(authors),
+          :multiple => true, :class => "request_workflow_authors" %>
+        <%= f.hidden_field step.flow_step, value: authors.values.join(",") %>
       </td>
       <td style="width:8rem;">
-          <%= link_to "<< 追加", 'javascript:void(0)', class: "button-add", onclick: "addToAuthor('#{select_name}','request_#{step.flow_step}')"%>
-          <%= link_to "削除 >>", 'javascript:void(0)', class:"button-del", onclick: "removeFromAuthor('#{select_name}','request_#{step.flow_step}')"%>
+        <%= link_to "<< 追加", 'javascript:void(0)', class: "button-add", onclick: "addToAuthor('#{select_name}','request_#{step.flow_step}')"%>
+        <%= link_to "削除 >>", 'javascript:void(0)', class:"button-del", onclick: "removeFromAuthor('#{select_name}','request_#{step.flow_step}')"%>
       </td>
     </tr>
   <% end %>

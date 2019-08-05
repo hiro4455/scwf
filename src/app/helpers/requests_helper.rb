@@ -8,6 +8,11 @@ module RequestsHelper
     template.each_with_object({}) {|v,h| h[username v.user]=v.user.id}
   end
 
+  def author_list_by_user_id user_id_csv
+    User.where(id: user_id_csv.split(',')).each_with_object({}) {|v,h| h[username v.user] = v.user.id}
+    #template.each_with_object({}) {|v,h| h[username v.user]=v.user.id}
+  end
+
   def review_text form
     return nil if form.value.nil?
     if form.file.attached?
@@ -25,8 +30,10 @@ module RequestsHelper
     end
   end
 
-  def to_html form, f
+  def to_html form, f, default_value=nil
     value = extract_placeholder form.value || ""
+    #value = default_value.value unless default_value.nil?
+
     comment = form.desc
     case form.column_type
       when 'hidden'
@@ -59,6 +66,30 @@ module RequestsHelper
         return a;
       when 'date'
         return f.date_field form.name, value: Time.now.strftime("%Y-%m-%d")
+      when 'file'
+        return f.file_field form.name
+    end
+    ''
+  end
+
+  def to_edit form, f, default_value=nil
+    value = extract_placeholder form.value || ""
+    selected_value = default_value.value unless default_value.nil?
+
+    comment = form.desc
+    case form.column_type
+      when 'hidden'
+        return f.hidden_field form.name, value: selected_value 
+      when 'label'
+        return f.text_field form.name, value: selected_value, :readonly => true
+      when 'text'
+        return f.text_field form.name, value: selected_value, placeholder: comment
+      when 'textarea'
+        return f.text_area form.name, value: selected_value
+      when 'select'
+        return f.select form.name, value , selected: selected_value
+      when 'date'
+        return f.date_field form.name, value: selected_value
       when 'file'
         return f.file_field form.name
     end

@@ -36,3 +36,7 @@
 <%= form_for :request, url: apply_request_path(@request) do |f| %>
 <%= f.submit '申請を送信する', class: "button-submit" %>
 <% end %>
+
+<%= form_for :request, url: edit_request_path(@request), method: :get do |f| %>
+<%= f.submit '修正する', class: "button-submit" %>
+<% end %>

@@ -11,13 +11,12 @@ class RequestsController < ApplicationController
 
   def new
     @user = @current_user
-    @users = User.all
     workflow_id = params[:workflow]
-    @workflow = WorkflowMaster.find(workflow_id)
-    @forms = @workflow.form_masters
-    @form_title = @forms.find_by(behaviour: 'title')
-    @steps = @workflow.workflow_step_masters
-    @templates = @workflow.workflow_step_templates
+    @workflow_master = WorkflowMaster.find(workflow_id)
+    @form_masters = @workflow_master.form_masters
+    @form_title = @form_masters.find_by(behaviour: 'title')
+    @step_masters = @workflow_master.workflow_step_masters
+    @step_templates = @workflow_master.workflow_step_templates
   end
 
   def create
@@ -76,6 +75,16 @@ class RequestsController < ApplicationController
     @forms = @request.forms
     @workflows = @request.workflows.all
     @need_sign = @request.workflows.where(user:@user).where(approved: nil)
+  end
+
+  def edit
+    @user = @current_user
+    @request = Request.find(params[:id])
+    @workflow_master = @request.workflow_master
+    @form_masters = @workflow_master.form_masters
+    @form_title = @form_masters.find_by(behaviour: 'title')
+    @step_masters = @workflow_master.workflow_step_masters
+    @step_templates = @workflow_master.workflow_step_templates
   end
 
   def apply
