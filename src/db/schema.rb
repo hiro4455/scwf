@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_25_194506) do
+ActiveRecord::Schema.define(version: 2019_08_17_033333) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 2019_07_25_194506) do
     t.integer "display_order"
     t.string "metadata"
     t.string "name"
-    t.string "desc"
-    t.string "value"
+    t.text "desc"
+    t.text "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "workflow_master_id"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 2019_07_25_194506) do
     t.bigint "request_id"
     t.string "name"
     t.string "column_type"
-    t.string "desc"
     t.boolean "required"
     t.string "value", limit: 1024
     t.datetime "created_at", null: false
@@ -105,6 +104,8 @@ ActiveRecord::Schema.define(version: 2019_07_25_194506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "approving_step"
+    t.string "group_name"
+    t.integer "display_order"
   end
 
   create_table "workflow_step_masters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

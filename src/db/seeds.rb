@@ -39,7 +39,11 @@ unless true #ARGV.any?{|x| x == '--no-build-user'}
 end
 
 create_workflow = Proc.new do |raw|
-  workflow_master = WorkflowMaster.create(id: raw['id'], name: raw['name'])
+  workflow_master = WorkflowMaster.create(
+    id: raw['id'],
+    group_name: raw['group'],
+    display_order: raw['display_order'],
+    name: raw['name'])
   raw['flow'].each do |raw_field|
     workflow_master.update!(approving_step: raw_field['flow_step']) if raw_field.has_key?('approving_point')
     WorkflowStepMaster.create(
@@ -53,6 +57,7 @@ end
 
 create_template = Proc.new do |raw|
   template_id = raw['id']
+  users = User.all
   raw['flow'].each do |raw_field|
     flow_step = raw_field['flow_step']
     workflow_master = WorkflowMaster.find_by(id: raw['workflow_master_id'])
@@ -61,7 +66,7 @@ create_template = Proc.new do |raw|
         template_id: template_id,
         workflow_master: workflow_master,
         flow_step: flow_step,
-        user: User.find_by(id: user_id))
+        user: users.find{|x| x.id == user_id or x.mail.index(user_id.to_s+'@') == 0})
     end
   end
 end
