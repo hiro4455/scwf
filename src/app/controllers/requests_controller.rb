@@ -6,7 +6,7 @@ class RequestsController < ApplicationController
     #@waiting_requests = Workflow.where(user:@user).where(approved: nil).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}.select{|x| not x.draft?}
     @waiting_requests = Workflow.where(user:@user).where(approved: nil).joins(:request).merge(Request.where(in_progress: true)).select{|x| x.flow_step == x.request.current_step}.map{|x| x.request}
     @my_requests = @user.requests.where(draft: nil)
-    @workflow_masters = WorkflowMaster.all
+    @workflow_masters = WorkflowMaster.all.sort_by{|x| x.display_order || 0}.inject({}){|r,i| r[i.group_name] ||= []; r[i.group_name].push(i); r}
   end
 
   def new
@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
     workflow_id = params[:workflow]
     @workflow_master = WorkflowMaster.find(workflow_id)
     @form_masters = @workflow_master.form_masters
-    @form_title = @form_masters.find_by(behaviour: 'title')
+    @form_title = @workflow_master.name
     @step_masters = @workflow_master.workflow_step_masters
     @step_templates = @workflow_master.workflow_step_templates
   end
@@ -46,7 +46,6 @@ class RequestsController < ApplicationController
         request: request,
         name: form['name'],
         column_type: form['column_type'],
-        desc: form['desc'],
         required: form['required'],
         value: value,
         file: attached)

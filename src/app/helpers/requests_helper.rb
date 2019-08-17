@@ -91,7 +91,9 @@ module RequestsHelper
       when 'date'
         return f.date_field form.name, value: selected_value
       when 'file'
-        return f.file_field form.name
+        return tag.span(default_value.value, id: 'default_'+form.name) +
+          f.file_field(form.name, value: default_value.value,
+            onchange: "document.getElementById('default_#{form.name}').setAttribute('style', 'display:none')")
     end
     ''
   end
