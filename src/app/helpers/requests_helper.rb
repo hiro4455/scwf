@@ -41,7 +41,9 @@ module RequestsHelper
       when 'label'
         return f.text_field form.name, value: value, :readonly => true
       when 'text'
-        return f.text_field form.name, value: value, placeholder: comment
+        val = f.text_field(form.name, value: value)
+        val += raw(comment.to_s.gsub("\n",tag.br)) unless comment.to_s.blank?
+        return val
       when 'textarea'
         return f.text_area form.name, value: value
       when 'select'
@@ -57,6 +59,7 @@ module RequestsHelper
         return a;
       when 'checkbox'
         m = Struct.new(:id, :name)
+        value = [value] if value.kind_of? String
         value = value.map{|x| m.new(x,x) }
         a = f.collection_check_boxes(form.name, value, :id, :name, include_hidden: false) do |b|
           b.label do
